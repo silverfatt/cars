@@ -5,13 +5,17 @@ from fastapi.exceptions import HTTPException
 from loguru import logger
 
 from ...api.v1.cars.models import Car, CollectedCar
+from .exceptions import NotFoundException
 
 
 def db_wrapper(func):
     async def inner(*args, **kwargs):
 
         try:
-            await func(*args, **kwargs)
+            return await func(*args, **kwargs)
+        except NotFoundException as e:
+            logger.error(f'msg="Car not found", error="{repr(e)}"')
+            raise HTTPException(status_code=404, detail="Not Found")
         except Exception as e:
             logger.error(
                 f'msg="Unknown error during database operations", error="{repr(e)}"'
@@ -32,3 +36,33 @@ async def add_car_to_db(pool: Pool, car_to_create: Car):
             await connection.execute(
                 query, *car_to_create.model_dump(exclude_none=True).values()
             )
+
+
+@db_wrapper
+async def get_car_from_db(pool: Pool, car_id: int) -> CollectedCar:
+    query = f"""
+            SELECT * FROM car
+            WHERE id = $1
+            """
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetchrow(query, car_id)
+    if not res:
+        raise NotFoundException("Car not found")
+    return CollectedCar(**res)
+
+
+@db_wrapper
+async def get_cars_list_from_db(
+    pool: Pool, offset: int, limit: int
+) -> list[CollectedCar]:
+    query = """
+            SELECT * FROM car
+            ORDER BY id ASC
+            OFFSET $1
+            LIMIT $2
+            """
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetch(query, offset, limit)
+    return [CollectedCar(**row) for row in res]

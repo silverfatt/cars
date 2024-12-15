@@ -56,15 +56,15 @@
 - Back (API)
   - GET /api/v1/drivers/list - список водителей
   - GET /api/v1/drivers/{id} - водитель
-  - POST /api/v1/drivers/{id} - создать водителя
+  - POST /api/v1/drivers/ - создать водителя
   - DELETE /api/v1/drivers/{id} - удалить водителя
   - GET /api/v1/cars/list - список машин
   - GET /api/v1/cars/{id} - машина
-  - POST /api/v1/cars/{id} - создать машину
+  - POST /api/v1/cars/ - создать машину
   - DELETE /api/v1/cars/{id} - удалить машину
   - GET /api/v1/trips/ - поездки
   - GET /api/v1/trips/{id} - поездка
-  - POST /api/v1/trips/{id} - создать поездку
+  - POST /api/v1/trips/ - создать поездку
   - DELETE /api/v1/trips/{id} - удалить поездку
   - GET /api/v1/dashboard - видимо, список водитель-машина-дата планового обслуживания
 - DevOps
