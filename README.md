@@ -34,7 +34,7 @@
   - year INT - дано
   - mileage INT - дано
   - last_maintenance_date DATE - дано
-  - next_maintenance_date DATE - должны сгенерить при помощи ML
+  - recommended_maintenance_date DATE - должны сгенерить при помощи ML
 - driver
   - id SERIAL
   - car INT car.id
