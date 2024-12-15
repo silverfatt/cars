@@ -16,12 +16,7 @@ async def test_route() -> str:
 
 @cars_router.post(
     "/api/v1/cars",
-    responses={
-        502: {"description": "Error during making a query to postgres"},
-        200: {"description": "Found number in database"},
-        201: {"description": "Added new number to database"},
-        403: {"description": "Service is not in access users"},
-    },
+    responses={201: {"description": "Added new car to database"}},
 )
 async def add_car_view(
     car_to_add: Car,
