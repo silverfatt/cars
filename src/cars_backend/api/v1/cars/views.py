@@ -46,7 +46,14 @@ async def get_car_view(
     return car
 
 
-@cars_router.get("/api/v1/cars")
+@cars_router.get(
+    "/api/v1/cars",
+    responses={
+        200: {"description": "Successfully got cars from database"},
+        502: {"description": "Database error"},
+        500: {"description": "Unknown error"},
+    },
+)
 async def get_cars_list(
     response: Response,
     offset: int = Query(ge=0),
