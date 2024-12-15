@@ -2,6 +2,7 @@ from asyncpg import Pool
 
 from ....external.postgres.utils import (
     add_car_to_db,
+    delete_car_from_db,
     get_car_from_db,
     get_cars_list_from_db,
 )
@@ -21,3 +22,7 @@ async def get_car(pool: Pool, car_id: int) -> CollectedCar:
 async def get_cars_list(pool: Pool, offset: int, limit: int) -> list[CollectedCar]:
     cars_list = await get_cars_list_from_db(pool, offset, limit)
     return cars_list
+
+
+async def delete_car(pool: Pool, car_id: int) -> None:
+    await delete_car_from_db(pool, car_id)

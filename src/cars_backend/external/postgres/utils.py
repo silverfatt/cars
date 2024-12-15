@@ -66,3 +66,18 @@ async def get_cars_list_from_db(
         async with connection.transaction():
             res = await connection.fetch(query, offset, limit)
     return [CollectedCar(**row) for row in res]
+
+
+@db_wrapper
+async def delete_car_from_db(pool: Pool, car_id: int):
+    query = f"""
+            DELETE FROM car
+            WHERE id = $1
+            """
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.execute(query, car_id)
+            print(res)
+    if int(res.split()[1]) == 0:
+        raise NotFoundException("Car not found")
+    return
