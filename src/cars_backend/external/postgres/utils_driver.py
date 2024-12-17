@@ -4,7 +4,7 @@ from asyncpg import Pool
 from fastapi.exceptions import HTTPException
 from loguru import logger
 
-from ...api.v1.driver.models import Driver, CollectedDriver
+from ...api.v1.drivers.models import Driver, CollectedDriver
 from .exceptions import NotFoundException
 
 def db_wrapper(func):
