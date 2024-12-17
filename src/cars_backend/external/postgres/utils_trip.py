@@ -13,7 +13,7 @@ def db_wrapper(func):
         try:
             return await func(*args, **kwargs)
         except NotFoundException as e:
-            logger.error(f'msg="Car not found", error="{repr(e)}"')
+            logger.error(f'msg="Trip not found", error="{repr(e)}"')
             raise HTTPException(status_code=404, detail="Not Found")
         except Exception as e:
             logger.error(
@@ -27,7 +27,7 @@ def db_wrapper(func):
 @db_wrapper
 async def add_trip_to_db(pool: Pool, trip_to_create: Trip):
     query = f"""
-            INSERT INTO car ({", ".join(trip_to_create.model_dump(exclude_none=True).keys())})
+            INSERT INTO trip ({", ".join(trip_to_create.model_dump(exclude_none=True).keys())})
             VALUES ({", ".join([f"${i+1}" for i in range(len(trip_to_create.model_dump(exclude_none=True).keys()))])})
             """
     async with pool.acquire() as connection:
