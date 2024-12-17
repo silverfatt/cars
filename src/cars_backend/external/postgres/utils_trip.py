@@ -4,7 +4,7 @@ from asyncpg import Pool
 from fastapi.exceptions import HTTPException
 from loguru import logger
 
-from ...api.v1.trip.models import Trip, CollectedTrip
+from ...api.v1.trips.models import Trip, CollectedTrip
 from .exceptions import NotFoundException
 
 def db_wrapper(func):
