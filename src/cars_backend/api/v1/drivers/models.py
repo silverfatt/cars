@@ -8,7 +8,7 @@ class Driver(BaseModel):
     violations: int
 
 
-    @field_validator("experitnce_years")
+    @field_validator("experience_years")
     @classmethod
 
     def check_experience_years(cls, v: int) -> int:
