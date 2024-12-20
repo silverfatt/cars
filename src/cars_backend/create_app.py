@@ -11,6 +11,7 @@ from .api.v1.cars.views import cars_router
 from .api.v1.dashboards.views import dashboards_router
 from .api.v1.drivers.views import drivers_router
 from .api.v1.trips.views import trips_router
+from .external.ml_model.upload_model import load_model
 from .external.postgres.connection import connect_postgres, disconnect_postgres
 from .settings import settings
 
@@ -48,5 +49,6 @@ def create_app():
     )
 
     app.add_event_handler("startup", connect_postgres)
+    app.add_event_handler("startup", load_model)
     app.add_event_handler("shutdown", disconnect_postgres)
     return app
