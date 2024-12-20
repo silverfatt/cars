@@ -14,14 +14,14 @@ class Car(BaseModel):
     @field_validator("year_of_manufacture")
     @classmethod
     def value_must_be_real(cls, v: int) -> int:
-        if v < 1950:
+        if v < 1950 or v > date.today().year:
             raise ValueError("value is unrealistic")
         return v
 
     @field_validator("last_maintenance_date")
     @classmethod
     def date_must_be_real(cls, v: date) -> date:
-        if v.year < 1950:
+        if v.year < 1950 or v > date.today():
             raise ValueError("value is unrealistic")
         return v
 
