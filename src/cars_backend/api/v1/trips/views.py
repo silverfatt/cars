@@ -3,28 +3,32 @@ from fastapi.param_functions import Depends
 from fastapi.routing import APIRouter
 
 from ....external.postgres.connection import get_connection_pool
+from ..auth.auth import get_current_active_user
+from ..auth.models import User
 from .core import add_trip, delete_trip, get_trip, get_trips_list_from_db
-from .models import Trip, CollectedTrip
+from .models import CollectedTrip, Trip
 
 trips_router = APIRouter(prefix="/api/v1/trip", tags=["trips"])
+
 
 @trips_router.post(
     "/",
     responses={
         201: {"description": "Added new trip to database"},
         502: {"description": "Database error"},
-        500: {"description": "Unknown error"}
+        500: {"description": "Unknown error"},
     },
 )
-
 async def add_trip_view(
-        trips_to_add: Trip,
-        response: Response,
-        pool = Depends(get_connection_pool),
+    trips_to_add: Trip,
+    response: Response,
+    pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ) -> str:
     await add_trip(pool, trips_to_add)
     response.status_code = 201
     return "ok"
+
 
 @trips_router.get(
     "/{id}",
@@ -36,13 +40,15 @@ async def add_trip_view(
     },
 )
 async def get_trip_view(
-        response: Response,
-        trip_id: int = Query(ge=0),
-        pool = Depends(get_connection_pool),
+    response: Response,
+    trip_id: int = Query(ge=0),
+    pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ) -> CollectedTrip:
     trip = await get_trip(pool, trip_id)
     response.status_code = 200
     return trip
+
 
 @trips_router.get(
     "/",
@@ -53,15 +59,16 @@ async def get_trip_view(
     },
 )
 async def get_trips_list(
-        response: Response,
-        offset: int = Query(ge=0),
-        limit: int = Query(ge=0),
-        pool=Depends(get_connection_pool),
+    response: Response,
+    offset: int = Query(ge=0),
+    limit: int = Query(ge=0),
+    pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ) -> list[CollectedTrip]:
-    print(1)
     trips_list = await get_trips_list_from_db(pool, offset, limit)
     response.status_code = 200
     return trips_list
+
 
 @trips_router.delete(
     "/{id}",
@@ -73,12 +80,11 @@ async def get_trips_list(
     },
 )
 async def delete_trip_view(
-        response: Response,
-        trip_id: int = Query(ge=0),
-        pool=Depends(get_connection_pool),
+    response: Response,
+    trip_id: int = Query(ge=0),
+    pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ):
     await delete_trip(pool, trip_id)
     response.status_code = 204
     return
-
-

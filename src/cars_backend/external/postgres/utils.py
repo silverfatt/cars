@@ -5,6 +5,7 @@ from fastapi.exceptions import HTTPException
 from loguru import logger
 
 from ...api.v1.cars.models import Car, CollectedCar
+from ...api.v1.auth.models import UserInDB
 from .exceptions import NotFoundException
 
 

@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     postgres_port: str
     postgres_database: str
     loguru_level: Literal["INFO", "DEBUG"] = "DEBUG"
+    secret_key: str
+    access_token_expiration: int = 1000
 
     class Config:
         env_file = ".env"

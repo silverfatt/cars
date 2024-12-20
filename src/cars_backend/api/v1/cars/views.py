@@ -3,6 +3,8 @@ from fastapi.param_functions import Depends
 from fastapi.routing import APIRouter
 
 from ....external.postgres.connection import get_connection_pool
+from ..auth.auth import get_current_active_user
+from ..auth.models import User
 from .core import add_car, delete_car, get_car, get_cars_list_from_db
 from .models import Car, CollectedCar
 
@@ -21,6 +23,7 @@ async def add_car_view(
     car_to_add: Car,
     response: Response,
     pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ) -> str:
     await add_car(pool, car_to_add)
     response.status_code = 201  # type: ignore
@@ -40,6 +43,7 @@ async def get_car_view(
     response: Response,
     car_id: int = Query(ge=0),
     pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ) -> CollectedCar:
     car = await get_car(pool, car_id)
     response.status_code = 200  # type: ignore
@@ -59,6 +63,7 @@ async def get_cars_list(
     offset: int = Query(ge=0),
     limit: int = Query(ge=0),
     pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ) -> list[CollectedCar]:
     print(1)
     cars_list = await get_cars_list_from_db(pool, offset, limit)
@@ -79,6 +84,7 @@ async def delete_car_view(
     response: Response,
     car_id: int = Query(ge=0),
     pool=Depends(get_connection_pool),
+    current_user: User = Depends(get_current_active_user),
 ):
     await delete_car(pool, car_id)
     response.status_code = 204  # type: ignore
