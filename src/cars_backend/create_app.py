@@ -8,6 +8,7 @@ from starlette.middleware.cors import CORSMiddleware
 from .api.ping import status_router
 from .api.v1.auth.views import auth_router
 from .api.v1.cars.views import cars_router
+from .api.v1.dashboards.views import dashboards_router
 from .api.v1.drivers.views import drivers_router
 from .api.v1.trips.views import trips_router
 from .external.postgres.connection import connect_postgres, disconnect_postgres
@@ -37,6 +38,7 @@ def create_app():
     app.include_router(drivers_router)
     app.include_router(trips_router)
     app.include_router(auth_router)
+    app.include_router(dashboards_router)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
