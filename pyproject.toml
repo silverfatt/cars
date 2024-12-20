@@ -3,21 +3,17 @@ name = "cars"
 version = "0.1.0"
 description = ""
 authors = ["silverfatt <silvestr.fat@mail.ru>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 fastapi = "^0.115.6"
-loguru = "^0.7.3"
 uvicorn = "^0.34.0"
-asyncpg = "^0.30.0"
 pydantic-settings = "^2.7.0"
-pydantic = "^2.10.3"
+loguru = "^0.7.3"
+asyncpg = "^0.30.0"
 
-
-[tool.poetry.group.dev.dependencies]
-black = "^24.10.0"
+[tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

@@ -7,6 +7,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 from .api.ping import status_router
 from .api.v1.cars.views import cars_router
+from .api.v1.drivers.views import drivers_router
+from .api.v1.trips.views import trips_router
 from .external.postgres.connection import connect_postgres, disconnect_postgres
 from .settings import settings
 
@@ -31,7 +33,8 @@ def create_app():
     logger.configure(handlers=logger_handlers)  # type: ignore
     app.include_router(status_router)
     app.include_router(cars_router)
-
+    app.include_router(drivers_router)
+    app.include_router(trips_router)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],

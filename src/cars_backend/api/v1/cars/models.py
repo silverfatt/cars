@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 
 from pydantic import BaseModel, field_validator
 
@@ -8,7 +9,7 @@ class Car(BaseModel):
     year_of_manufacture: int
     mileage: int
     last_maintenance_date: date
-    recommended_maintenance_date: date | None = None
+    recommended_maintenance_date: Optional[date] = None
 
     @field_validator("year_of_manufacture")
     @classmethod
