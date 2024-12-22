@@ -86,6 +86,7 @@
 - ЯП - Python
 - Бэкенд - FastAPI, Pydantic, Uvicorn
 - ML - sklearn, numpy, pandas
+- Виртуальные окружения - poetry
 
 ### Архитектура
 
