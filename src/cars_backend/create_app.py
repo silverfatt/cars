@@ -16,7 +16,7 @@ from .external.postgres.connection import connect_postgres, disconnect_postgres
 from .settings import settings
 
 app = FastAPI(
-    title="Phone Processing Service",
+    title="Cars Dashboard",
     docs_url="/api/docs",
     redoc_url="/api/redoc",
     version=os.getenv("APP_VERSION", default="DEV"),

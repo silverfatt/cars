@@ -1,0 +1,1279 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Cars Dashboard",
+        "version": "DEV"
+    },
+    "paths": {
+        "/api/ping": {
+            "get": {
+                "tags": [
+                    "status"
+                ],
+                "summary": "Ping",
+                "operationId": "ping_api_ping_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cars/": {
+            "post": {
+                "tags": [
+                    "cars"
+                ],
+                "summary": "Add Car View",
+                "operationId": "add_car_view_api_v1_cars__post",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Car"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "title": "Response Add Car View Api V1 Cars  Post"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Added new car to database"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "cars"
+                ],
+                "summary": "Get Cars List View",
+                "operationId": "get_cars_list_view_api_v1_cars__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Offset"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Limit"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got cars from database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Get Cars List View Api V1 Cars  Get"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cars/{id}": {
+            "get": {
+                "tags": [
+                    "cars"
+                ],
+                "summary": "Get Car View",
+                "operationId": "get_car_view_api_v1_cars__id__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Car Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got car from database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectedCar"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Car not found"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "cars"
+                ],
+                "summary": "Delete Car View",
+                "operationId": "delete_car_view_api_v1_cars__id__delete",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Car Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Successfully deleted car from database"
+                    },
+                    "404": {
+                        "description": "Car not found"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/driver/": {
+            "post": {
+                "tags": [
+                    "drivers"
+                ],
+                "summary": "Add Driver View",
+                "operationId": "add_driver_view_api_v1_driver__post",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Driver"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "title": "Response Add Driver View Api V1 Driver  Post"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Added new driver to database"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "drivers"
+                ],
+                "summary": "Get Drivers List View",
+                "operationId": "get_drivers_list_view_api_v1_driver__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Offset"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Limit"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got drivers from database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Get Drivers List View Api V1 Driver  Get"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/driver/{id}": {
+            "get": {
+                "tags": [
+                    "drivers"
+                ],
+                "summary": "Get Driver View",
+                "operationId": "get_driver_view_api_v1_driver__id__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Driver Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got driver from database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectedDriver"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "drivers"
+                ],
+                "summary": "Delete Driver View",
+                "operationId": "delete_driver_view_api_v1_driver__id__delete",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Driver Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Successfully deleted driver from database"
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "501": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/trip/": {
+            "post": {
+                "tags": [
+                    "trips"
+                ],
+                "summary": "Add Trip View",
+                "operationId": "add_trip_view_api_v1_trip__post",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Trip"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "title": "Response Add Trip View Api V1 Trip  Post"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Added new trip to database"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "trips"
+                ],
+                "summary": "Get Trips List View",
+                "operationId": "get_trips_list_view_api_v1_trip__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Offset"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Limit"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got trips from database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Get Trips List View Api V1 Trip  Get"
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/trip/{id}": {
+            "get": {
+                "tags": [
+                    "trips"
+                ],
+                "summary": "Get Trip View",
+                "operationId": "get_trip_view_api_v1_trip__id__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "trip_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Trip Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got trip from database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectedTrip"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Trip not found"
+                    },
+                    "502": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "trips"
+                ],
+                "summary": "Delete Trip View",
+                "operationId": "delete_trip_view_api_v1_trip__id__delete",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "trip_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "title": "Trip Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Successfully deleted trip from database"
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "501": {
+                        "description": "Database error"
+                    },
+                    "500": {
+                        "description": "Unknown error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/signup": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create Account",
+                "operationId": "create_account_api_v1_auth_signup_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login For Access Token",
+                "operationId": "login_for_access_token_api_v1_auth_token_post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_for_access_token_api_v1_auth_token_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/users/me/": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Read Users Me",
+                "operationId": "read_users_me_api_v1_auth_users_me__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dashboards/predict": {
+            "get": {
+                "tags": [
+                    "dashboards"
+                ],
+                "summary": "Predict Next Maintenance View",
+                "operationId": "predict_next_maintenance_view_api_v1_dashboards_predict_get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Car Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully predicted",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Car not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Body_login_for_access_token_api_v1_auth_token_post": {
+                "properties": {
+                    "grant_type": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "pattern": "password"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grant Type"
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "title": "Scope",
+                        "default": ""
+                    },
+                    "client_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Id"
+                    },
+                    "client_secret": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Secret"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "title": "Body_login_for_access_token_api_v1_auth_token_post"
+            },
+            "Car": {
+                "properties": {
+                    "model": {
+                        "type": "string",
+                        "title": "Model"
+                    },
+                    "year_of_manufacture": {
+                        "type": "integer",
+                        "title": "Year Of Manufacture"
+                    },
+                    "mileage": {
+                        "type": "integer",
+                        "title": "Mileage"
+                    },
+                    "last_maintenance_date": {
+                        "type": "string",
+                        "format": "date",
+                        "title": "Last Maintenance Date"
+                    },
+                    "recommended_maintenance_date": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Recommended Maintenance Date"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "model",
+                    "year_of_manufacture",
+                    "mileage",
+                    "last_maintenance_date"
+                ],
+                "title": "Car"
+            },
+            "CollectedCar": {
+                "properties": {
+                    "model": {
+                        "type": "string",
+                        "title": "Model"
+                    },
+                    "year_of_manufacture": {
+                        "type": "integer",
+                        "title": "Year Of Manufacture"
+                    },
+                    "mileage": {
+                        "type": "integer",
+                        "title": "Mileage"
+                    },
+                    "last_maintenance_date": {
+                        "type": "string",
+                        "format": "date",
+                        "title": "Last Maintenance Date"
+                    },
+                    "recommended_maintenance_date": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Recommended Maintenance Date"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "model",
+                    "year_of_manufacture",
+                    "mileage",
+                    "last_maintenance_date",
+                    "id"
+                ],
+                "title": "CollectedCar"
+            },
+            "CollectedDriver": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "experience_years": {
+                        "type": "integer",
+                        "title": "Experience Years"
+                    },
+                    "car_id": {
+                        "type": "integer",
+                        "title": "Car Id"
+                    },
+                    "violations": {
+                        "type": "integer",
+                        "title": "Violations"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "experience_years",
+                    "car_id",
+                    "violations",
+                    "id"
+                ],
+                "title": "CollectedDriver"
+            },
+            "CollectedTrip": {
+                "properties": {
+                    "trip_date": {
+                        "type": "string",
+                        "format": "date",
+                        "title": "Trip Date"
+                    },
+                    "distance_km": {
+                        "type": "number",
+                        "title": "Distance Km"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "title": "Rating"
+                    },
+                    "cost": {
+                        "type": "number",
+                        "title": "Cost"
+                    },
+                    "driver_id": {
+                        "type": "integer",
+                        "title": "Driver Id"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "trip_date",
+                    "distance_km",
+                    "rating",
+                    "cost",
+                    "driver_id",
+                    "id"
+                ],
+                "title": "CollectedTrip"
+            },
+            "Driver": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "experience_years": {
+                        "type": "integer",
+                        "title": "Experience Years"
+                    },
+                    "car_id": {
+                        "type": "integer",
+                        "title": "Car Id"
+                    },
+                    "violations": {
+                        "type": "integer",
+                        "title": "Violations"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "experience_years",
+                    "car_id",
+                    "violations"
+                ],
+                "title": "Driver"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "Token": {
+                "properties": {
+                    "access_token": {
+                        "type": "string",
+                        "title": "Access Token"
+                    },
+                    "token_type": {
+                        "type": "string",
+                        "title": "Token Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "access_token",
+                    "token_type"
+                ],
+                "title": "Token"
+            },
+            "Trip": {
+                "properties": {
+                    "trip_date": {
+                        "type": "string",
+                        "format": "date",
+                        "title": "Trip Date"
+                    },
+                    "distance_km": {
+                        "type": "number",
+                        "title": "Distance Km"
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "title": "Rating"
+                    },
+                    "cost": {
+                        "type": "number",
+                        "title": "Cost"
+                    },
+                    "driver_id": {
+                        "type": "integer",
+                        "title": "Driver Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "trip_date",
+                    "distance_km",
+                    "rating",
+                    "cost",
+                    "driver_id"
+                ],
+                "title": "Trip"
+            },
+            "User": {
+                "properties": {
+                    "initials": {
+                        "type": "string",
+                        "title": "Initials"
+                    },
+                    "position": {
+                        "type": "string",
+                        "title": "Position"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "title": "Phone"
+                    },
+                    "email": {
+                        "type": "string",
+                        "title": "Email"
+                    },
+                    "disabled": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Disabled"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "initials",
+                    "position",
+                    "phone",
+                    "email",
+                    "password"
+                ],
+                "title": "User"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        },
+        "securitySchemes": {
+            "OAuth2PasswordBearer": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "scopes": {},
+                        "tokenUrl": "v1/auth/token"
+                    }
+                }
+            }
+        }
+    }
+}
