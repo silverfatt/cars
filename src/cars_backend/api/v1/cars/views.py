@@ -5,7 +5,7 @@ from fastapi.routing import APIRouter
 from ....external.postgres.connection import get_connection_pool
 from ..auth.auth import get_current_active_user
 from ..auth.models import User
-from .core import add_car, delete_car, get_car, get_cars_list_from_db
+from .core import add_car, delete_car, get_car, get_cars_list
 from .models import Car, CollectedCar
 
 cars_router = APIRouter(prefix="/api/v1/cars", tags=["cars"])
@@ -58,17 +58,16 @@ async def get_car_view(
         500: {"description": "Unknown error"},
     },
 )
-async def get_cars_list(
+async def get_cars_list_view(
     response: Response,
     offset: int = Query(ge=0),
     limit: int = Query(ge=0),
     pool=Depends(get_connection_pool),
     current_user: User = Depends(get_current_active_user),
-) -> list[CollectedCar]:
-    print(1)
-    cars_list = await get_cars_list_from_db(pool, offset, limit)
+) -> dict:
+    cars_list, count = await get_cars_list(pool, offset, limit)
     response.status_code = 200  # type: ignore
-    return cars_list
+    return {"records": cars_list, "total": count}
 
 
 @cars_router.delete(

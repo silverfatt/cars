@@ -5,7 +5,7 @@ from fastapi.routing import APIRouter
 from ....external.postgres.connection import get_connection_pool
 from ..auth.auth import get_current_active_user
 from ..auth.models import User
-from .core import add_trip, delete_trip, get_trip, get_trips_list_from_db
+from .core import add_trip, delete_trip, get_trip, get_trips_list
 from .models import CollectedTrip, Trip
 
 trips_router = APIRouter(prefix="/api/v1/trip", tags=["trips"])
@@ -58,16 +58,16 @@ async def get_trip_view(
         500: {"description": "Unknown error"},
     },
 )
-async def get_trips_list(
+async def get_trips_list_view(
     response: Response,
     offset: int = Query(ge=0),
     limit: int = Query(ge=0),
     pool=Depends(get_connection_pool),
     current_user: User = Depends(get_current_active_user),
-) -> list[CollectedTrip]:
-    trips_list = await get_trips_list_from_db(pool, offset, limit)
+) -> dict:
+    trips_list, count = await get_trips_list(pool, offset, limit)
     response.status_code = 200
-    return trips_list
+    return {"records": trips_list, "total": count}
 
 
 @trips_router.delete(

@@ -4,8 +4,8 @@ from asyncpg import Pool
 from fastapi.exceptions import HTTPException
 from loguru import logger
 
-from ...api.v1.cars.models import Car, CollectedCar
 from ...api.v1.auth.models import UserInDB
+from ...api.v1.cars.models import Car, CollectedCar
 from .exceptions import NotFoundException
 
 
@@ -82,3 +82,12 @@ async def delete_car_from_db(pool: Pool, car_id: int):
     if int(res.split()[1]) == 0:
         raise NotFoundException("Car not found")
     return
+
+
+@db_wrapper
+async def count_records_in_table(pool: Pool, table_name: str) -> int:
+    query = f"SELECT COUNT(*) FROM {table_name}"  # Не является уязвимостью к SQL инъекциям, т к названия таблиц захардкожены в core.py файлах
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetchval(query)
+    return res
