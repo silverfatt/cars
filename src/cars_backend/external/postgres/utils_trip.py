@@ -7,6 +7,7 @@ from loguru import logger
 from ...api.v1.trips.models import Trip, CollectedTrip
 from .exceptions import NotFoundException
 
+
 def db_wrapper(func):
     async def inner(*args, **kwargs):
 
@@ -35,6 +36,7 @@ async def add_trip_to_db(pool: Pool, trip_to_create: Trip):
             await connection.execute(
                 query, *trip_to_create.model_dump(exclude_none=True).values()
             )
+
 
 @db_wrapper
 async def get_trip_from_db(pool: Pool, trip_id: int) -> CollectedTrip:
@@ -79,4 +81,3 @@ async def delete_trip_from_db(pool: Pool, trip_id: int):
     if int(res.split()[1]) == 0:
         raise NotFoundException("Trip not found")
     return
-

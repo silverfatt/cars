@@ -1,3 +1,4 @@
+from datetime import date
 from functools import wraps
 
 from asyncpg import Pool
@@ -37,6 +38,23 @@ async def add_car_to_db(pool: Pool, car_to_create: Car):
             await connection.execute(
                 query, *car_to_create.model_dump(exclude_none=True).values()
             )
+
+
+@db_wrapper
+async def update_car_recommended_maintenance(
+    pool: Pool, car_id: int, recommended_maintenance_date: date
+):
+    query = f"""
+            UPDATE car
+            SET recommended_maintenance_date = $2
+            WHERE id = $1
+            RETURNING *
+            """
+    async with pool.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetchrow(query, car_id, recommended_maintenance_date)
+    if not res:
+        raise NotFoundException("Car not found")
 
 
 @db_wrapper

@@ -2,6 +2,7 @@ import random
 from datetime import date, timedelta
 import csv
 
+
 class Car:
     id: int
     model: str
@@ -25,7 +26,23 @@ class Car:
 
     @staticmethod
     def generate_random_model():
-        model_list = ["Hyundai Solaris", "Volkswagen Polo", "Kia Rio", "Chevrolet Aveo", "Hyundai Accent", "Nissan Note", "Renault Logan", "Chevrolet Lacetti", "KIA Spectra", "Haval F7", "Geely Tugella", "EXEED TXL", "LADA (VAZ) Vesta", "Chery Tiggo 4", "Chery Tiggo 7 Pro" ]
+        model_list = [
+            "Hyundai Solaris",
+            "Volkswagen Polo",
+            "Kia Rio",
+            "Chevrolet Aveo",
+            "Hyundai Accent",
+            "Nissan Note",
+            "Renault Logan",
+            "Chevrolet Lacetti",
+            "KIA Spectra",
+            "Haval F7",
+            "Geely Tugella",
+            "EXEED TXL",
+            "LADA (VAZ) Vesta",
+            "Chery Tiggo 4",
+            "Chery Tiggo 7 Pro",
+        ]
         models = random.choice(model_list)
         return models
 
@@ -45,10 +62,9 @@ class Car:
             "Haval F7": (2019, today),
             "Geely Tugella": (2020, today),
             "EXEED TXL": (2020, today),
-            "LADA (VAZ) Vesta": (2015,today),
+            "LADA (VAZ) Vesta": (2015, today),
             "Chery Tiggo 4": (2017, today),
-            "Chery Tiggo 7 Pro": (2020, today)
-
+            "Chery Tiggo 7 Pro": (2020, today),
         }
         model = Car.generate_random_model()
         start, end = years_ranges.get(model, (2013, today))
@@ -96,7 +112,6 @@ class Car:
             else:
                 return 0
 
-
     def get_formated(self):
         return [
             self.id,
@@ -105,18 +120,18 @@ class Car:
             self.mileage,
             self.count_trip,
             self.last_maintenance_date,
-            self.to
-
+            self.to,
         ]
 
+
 header = [
-    'id',
-    'model',
-    'year_of_manufacture',
-    'mileage',
-    'count_trip',
-    'last_maintenance_date',
-    'to'
+    "id",
+    "model",
+    "year_of_manufacture",
+    "mileage",
+    "count_trip",
+    "last_maintenance_date",
+    "to",
 ]
 with open("gen_car_1.csv", "w") as f:
     writer = csv.writer(f)

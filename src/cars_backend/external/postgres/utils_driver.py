@@ -7,6 +7,7 @@ from loguru import logger
 from ...api.v1.drivers.models import Driver, CollectedDriver
 from .exceptions import NotFoundException
 
+
 def db_wrapper(func):
     async def inner(*args, **kwargs):
 
@@ -35,6 +36,7 @@ async def add_driver_to_db(pool: Pool, driver_to_create: Driver):
             await connection.execute(
                 query, *driver_to_create.model_dump(exclude_none=True).values()
             )
+
 
 @db_wrapper
 async def get_driver_from_db(pool: Pool, driver_id: int) -> CollectedDriver:
@@ -79,4 +81,3 @@ async def delete_driver_from_db(pool: Pool, driver_id: int):
     if int(res.split()[1]) == 0:
         raise NotFoundException("Driver not found")
     return
-
